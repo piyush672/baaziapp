@@ -7,9 +7,6 @@ import {
     Tabs,
     Tab,
     Box,
-    Card,
-    CardContent,
-    Chip,
     Grid,
     Modal,
     TextField,
@@ -17,6 +14,9 @@ import {
     ToggleButtonGroup,
 } from '@mui/material';
 import Header from '../components/header';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import LiveSection from '../components/LiveSection';
+import PendingSection from '../components/PendingSection';
 
 const dummyData = {
     live: [
@@ -36,7 +36,6 @@ const dummyData = {
             timeLeft: '12h 20m left',
             type: 'binary',
         },
-        // ... other live data ...
     ],
     pending: [],
     completed: [
@@ -44,9 +43,10 @@ const dummyData = {
             title: 'Rice MSP Prediction',
             description: 'Government Announcement',
             prediction: '₹2,200/Qtl',
+            actual: '₹2,205/Qtl',
             amount: '₹2,000',
             reward: '₹5,000',
-            result: 'Won',
+            date: '21/02/2025',
         },
     ],
 };
@@ -56,8 +56,10 @@ const TABS = ['Live', 'Pending', 'Completed'];
 const HomePage = () => {
     const [selectedTab, setSelectedTab] = useState('Live');
     const [modalOpen, setModalOpen] = useState(false);
+    const [winModalOpen, setWinModalOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState(null);
     const [predictionValue, setPredictionValue] = useState('');
+    const [selectedResult, setSelectedResult] = useState(null);
 
     const handleChange = (event, newValue) => {
         if (newValue) setSelectedTab(newValue);
@@ -72,6 +74,16 @@ const HomePage = () => {
         setModalOpen(false);
         setPredictionValue('');
         setSelectedCard(null);
+    };
+
+    const handleWinModalOpen = (result) => {
+        setSelectedResult(result);
+        setWinModalOpen(true);
+    };
+
+    const handleWinModalClose = () => {
+        setSelectedResult(null);
+        setWinModalOpen(false);
     };
 
     const renderPredictionInput = () => {
@@ -104,90 +116,49 @@ const HomePage = () => {
         }
     };
 
-    const renderCard = (item, index) => {
-        if (selectedTab === 'Completed') {
-            return (
-                <Card key={index} variant="outlined" sx={{ mb: 2, borderRadius: 2, width: '100%' }}>
-                    <CardContent>
-                        <Grid container justifyContent="space-between" alignItems="center">
-                            <Typography variant="h6" sx={{ fontSize: '1rem' }}>{item.title}</Typography>
-                            <Chip label={item.result} color="success" size="small" />
-                        </Grid>
-                        <Typography variant="body2" color="text.secondary" textAlign="left">
-                            {item.description}
-                        </Typography>
-                        <Grid container justifyContent="space-between" sx={{ mt: 1 }}>
-                            <Box>
-                                <Typography variant="caption">Your Prediction:</Typography>
-                                <Typography variant="body1" fontWeight="bold">
-                                    {item.prediction}
-                                </Typography>
-                            </Box>
-                            <Typography color="success.main" fontWeight="bold">
-                                {item.reward}
-                            </Typography>
-                        </Grid>
-                        <Grid container justifyContent="space-between" alignItems="center" sx={{ mt: 1 }}>
-                            <Typography variant="body2">
-                                Bet Amount: <strong>{item.amount}</strong>
-                            </Typography>
-                            <Button variant="contained" size="small" color="primary">
-                                View Results
-                            </Button>
-                        </Grid>
-                    </CardContent>
-                </Card>
-            );
-        } else {
-            return (
-                <Card key={index} variant="outlined" sx={{ mb: 2, borderRadius: 2, width: '100%' }}>
-                    <CardContent>
-                        <Grid container justifyContent="space-between" alignItems="center">
-                            <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
-                                {item.title}
-                            </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                                {item.timeLeft}
-                            </Typography>
-                        </Grid>
-                        <Typography variant="body2" color="text.secondary" align="left">
-                            {item.description}
-                        </Typography>
-                        <Grid container justifyContent="space-between" sx={{ mt: 1 }}>
-                            <Typography variant="body2">
-                                Current Price:{' '}
-                                <Typography component="span" fontWeight="bold" color="text.primary">
-                                    {item.price}
-                                </Typography>
-                            </Typography>
-                            <Typography variant="body2">
-                                Pool Size:{' '}
-                                <Typography component="span" fontWeight="bold" color="text.primary">
-                                    {item.poolSize}
-                                </Typography>
-                            </Typography>
-                        </Grid>
-                        <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                                onClick={() => handlePredictClick(item)}
+    const renderSection = () => {
+        switch (selectedTab) {
+            case 'Live':
+                return <LiveSection items={dummyData.live} onPredictClick={handlePredictClick} />;
+            case 'Pending':
+                return <PendingSection items={dummyData.pending} />;
+            case 'Completed':
+                return (
+                    <Box>
+                        {dummyData.completed.map((item, idx) => (
+                            <Box
+                                key={idx}
+                                sx={{
+                                    border: '1px solid #ddd',
+                                    borderRadius: 2,
+                                    p: 2,
+                                    mb: 2,
+                                }}
                             >
-                                Predict
-                            </Button>
-                        </Box>
-                    </CardContent>
-                </Card>
-            );
+                                <Typography fontWeight="bold">{item.title}</Typography>
+                                <Typography variant="body2" color="text.secondary">{item.description}</Typography>
+                                <Typography variant="body2" sx={{ mt: 1 }}>Prediction: {item.prediction}</Typography>
+                                <Typography variant="body2">Reward: {item.reward}</Typography>
+                                <Button
+                                    variant="outlined"
+                                    size="small"
+                                    sx={{ mt: 1 }}
+                                    onClick={() => handleWinModalOpen(item)}
+                                >
+                                    View Result
+                                </Button>
+                            </Box>
+                        ))}
+                    </Box>
+                );
+            default:
+                return null;
         }
     };
 
     return (
         <Box sx={{ bgcolor: 'white', minHeight: '100vh', width: 400, mx: 'auto' }}>
-            <Box sx={{ position: 'sticky', top: 0, zIndex: 2 }} >
-                <Header />
-            </Box> {/* Make Header sticky */}
+            <Header sx={{ position: 'sticky', top: 0, zIndex: 2 }} />
 
             <Box sx={{ px: 1, pt: 2 }}>
                 <Tabs
@@ -195,7 +166,7 @@ const HomePage = () => {
                     onChange={handleChange}
                     variant="fullWidth"
                     TabIndicatorProps={{ style: { display: 'none' } }}
-                    sx={{ bgcolor: '#007F6D', height: 32, alignItems: 'center' }} // Removed sticky positioning
+                    sx={{ bgcolor: '#007F6D', height: 32, alignItems: 'center' }}
                 >
                     {TABS.map((tab) => (
                         <Tab
@@ -225,21 +196,22 @@ const HomePage = () => {
                 <Box
                     sx={{
                         mt: 2,
-                        maxHeight: 'calc(100vh - 32px - 16px - 64px)', // Adjust based on Tabs (32px), padding (16px), and Header (64px)
+                        maxHeight: 'calc(100vh - 32px - 16px - 64px)',
                         overflowY: 'auto',
                     }}
                 >
-                    {dummyData[selectedTab.toLowerCase()].map((item, index) => renderCard(item, index))}
+                    {renderSection()}
                 </Box>
             </Box>
 
-            <Modal open={modalOpen} onClose={handleModalClose}>
+            {/* Win Modal */}
+            <Modal
+                open={winModalOpen}
+                onClose={handleWinModalClose}
+                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
                 <Box
                     sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
                         width: 380,
                         bgcolor: 'background.paper',
                         borderRadius: 2,
@@ -247,76 +219,63 @@ const HomePage = () => {
                         p: 2,
                         maxHeight: '80vh',
                         overflowY: 'auto',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
                     }}
                 >
-                    <Grid container justifyContent="space-between" alignItems="center">
-                        <Typography
-                            variant="subtitle2"
-                            fontWeight="bold"
-                            sx={{ flexShrink: 0, color: 'black' }}
-                        >
-                            Predict {selectedCard?.title}
-                        </Typography>
-                        <Button onClick={handleModalClose} size="small" sx={{ px: 0, minWidth: 'auto' }}>
-                            ✕
-                        </Button>
-                    </Grid>
+                    <CheckCircleIcon sx={{ fontSize: '4rem', color: '#2E7D32', mb: 2 }} />
+                    <Typography variant="h5" color="primary" sx={{ mb: 1 }}>
+                        आपने जीता!
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                        {selectedResult?.title || '—'}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
+                        {selectedResult?.date || '—'}
+                    </Typography>
 
-                    <Box mt={1}>
-                        <Typography variant="body2" color="text.secondary">
-                            Current Price
-                        </Typography>
-                        <Typography variant="body1" fontWeight="bold" gutterBottom color="text.secondary">
-                            {selectedCard?.price}
-                        </Typography>
-                    </Box>
-
-                    <Box mt={1}>
-                        <Typography variant="body2" gutterBottom color="text.secondary">
-                            Your Prediction
-                        </Typography>
-                        {renderPredictionInput()}
-                    </Box>
-
-                    <Box mt={1}>
-                        <Typography variant="body2" gutterBottom>
-                            Bet Amount (tokens)
-                        </Typography>
-                        <TextField
-                            placeholder="Enter amount"
-                            type="number"
-                            fullWidth
-                            sx={{ mt: 1 }}
-                            variant="outlined"
-                        />
-                        <Typography variant="caption" color="text.secondary" mt={1} display="block">
-                            Min: 1 Tk | Max: 10Tk
-                        </Typography>
-                    </Box>
-
-                    <Grid container justifyContent="space-between" spacing={1} mt={2}>
-                        <Grid item xs={5.5}>
-                            <Button
-                                fullWidth
-                                variant="outlined"
-                                onClick={handleModalClose}
-                                size="small"
-                            >
-                                Cancel
-                            </Button>
+                    <Box sx={{ bgcolor: '#F5F5F5', p: 2, borderRadius: 2, mb: 4, width: '80%', maxWidth: 300 }}>
+                        <Grid container justifyContent="space-between" sx={{ mb: 1 }}>
+                            <Typography variant="body2">वास्तविक मूल्य</Typography>
+                            <Typography variant="body2">आपका अनुमान</Typography>
                         </Grid>
-                        <Grid item xs={5.5}>
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                disabled={!predictionValue}
-                                size="small"
-                            >
-                                Submit
-                            </Button>
+                        <Grid container justifyContent="space-between" sx={{ mb: 1 }}>
+                            <Typography variant="body1" fontWeight="bold">
+                                {selectedResult?.actual || '—'}
+                            </Typography>
+                            <Typography variant="body1" fontWeight="bold">
+                                {selectedResult?.prediction || '—'}
+                            </Typography>
                         </Grid>
-                    </Grid>
+                        <Typography variant="body2" color="success.main" sx={{ mb: 1 }}>
+                            ✓ बहुत ही सटीक अनुमान!
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{ width: '80%', maxWidth: 300, mb: 4 }}>
+                        <Grid container justifyContent="space-between" sx={{ mb: 1 }}>
+                            <Typography variant="body2">आपका दाव</Typography>
+                            <Typography variant="body1" fontWeight="bold">
+                                {selectedResult?.amount || '—'}
+                            </Typography>
+                        </Grid>
+                        <Grid container justifyContent="space-between">
+                            <Typography variant="body2">कुल जीत</Typography>
+                            <Typography variant="body1" fontWeight="bold" color="success.main">
+                                {selectedResult?.reward || '—'}
+                            </Typography>
+                        </Grid>
+                    </Box>
+
+                    <Button
+                        variant="contained"
+                        color="success"
+                        sx={{ mt: 'auto', bgcolor: '#2E7D32', width: '80%', maxWidth: 300 }}
+                        onClick={handleWinModalClose}
+                    >
+                        वापस जाओ
+                    </Button>
                 </Box>
             </Modal>
         </Box>
