@@ -53,7 +53,7 @@ const Header = ({ showBack = false }) => {
                             '&:hover': { opacity: 0.8 },
                         }}
                     >
-                        <EmojiEventsIcon sx={{ color: 'gold', fontSize: '1rem', mr: 0.5 }} />
+                        <img src={"/gold-coin-rupee-icon.svg"} alt="Trophy" style={{ width: "1rem", marginRight: "0.5rem" }} />
                         10K
                     </Box>
                 )}

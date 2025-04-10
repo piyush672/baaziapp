@@ -36,6 +36,7 @@ const dummyData = {
             timeLeft: '12h 20m left',
             type: 'binary',
         },
+        // ... other live data ...
     ],
     pending: [],
     completed: [
@@ -59,7 +60,7 @@ const HomePage = () => {
     const [predictionValue, setPredictionValue] = useState('');
 
     const handleChange = (event, newValue) => {
-        setSelectedTab(newValue);
+        if (newValue) setSelectedTab(newValue);
     };
 
     const handlePredictClick = (card) => {
@@ -97,6 +98,7 @@ const HomePage = () => {
                     value={predictionValue}
                     onChange={(e) => setPredictionValue(e.target.value)}
                     sx={{ mt: 2 }}
+                    variant="outlined"
                 />
             );
         }
@@ -105,13 +107,13 @@ const HomePage = () => {
     const renderCard = (item, index) => {
         if (selectedTab === 'Completed') {
             return (
-                <Card key={index} variant="outlined" sx={{ mb: 2, borderRadius: 2 }}>
+                <Card key={index} variant="outlined" sx={{ mb: 2, borderRadius: 2, width: '100%' }}>
                     <CardContent>
                         <Grid container justifyContent="space-between" alignItems="center">
-                            <Typography variant="h6">{item.title}</Typography>
+                            <Typography variant="h6" sx={{ fontSize: '1rem' }}>{item.title}</Typography>
                             <Chip label={item.result} color="success" size="small" />
                         </Grid>
-                        <Typography variant="body2" color="text.secondary" textAlign={'left'}>
+                        <Typography variant="body2" color="text.secondary" textAlign="left">
                             {item.description}
                         </Typography>
                         <Grid container justifyContent="space-between" sx={{ mt: 1 }}>
@@ -138,21 +140,23 @@ const HomePage = () => {
             );
         } else {
             return (
-                <Card key={index} variant="outlined" sx={{ mb: 2, borderRadius: 2 }}>
+                <Card key={index} variant="outlined" sx={{ mb: 2, borderRadius: 2, width: '100%' }}>
                     <CardContent>
                         <Grid container justifyContent="space-between" alignItems="center">
-                            <Typography variant='body1' sx={{ fontWeight: 'bold' }}>{item.title}</Typography>
+                            <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                                {item.title}
+                            </Typography>
                             <Typography variant="caption" color="text.secondary">
                                 {item.timeLeft}
                             </Typography>
                         </Grid>
-                        <Typography variant="body2" color="text.secondary" align={'left'}>
+                        <Typography variant="body2" color="text.secondary" align="left">
                             {item.description}
                         </Typography>
                         <Grid container justifyContent="space-between" sx={{ mt: 1 }}>
                             <Typography variant="body2">
                                 Current Price:{' '}
-                                <Typography fontWeight="bold" color="text.primary">
+                                <Typography component="span" fontWeight="bold" color="text.primary">
                                     {item.price}
                                 </Typography>
                             </Typography>
@@ -180,16 +184,18 @@ const HomePage = () => {
     };
 
     return (
-        <Box sx={{ bgcolor: 'white', minHeight: '100vh', width: '100%' }}>
-            <Header />
+        <Box sx={{ bgcolor: 'white', minHeight: '100vh', width: 400, mx: 'auto' }}>
+            <Box sx={{ position: 'sticky', top: 0, zIndex: 2 }} >
+                <Header />
+            </Box> {/* Make Header sticky */}
 
-            <Box sx={{ px: 2, pt: 2 }}>
+            <Box sx={{ px: 1, pt: 2 }}>
                 <Tabs
                     value={selectedTab}
                     onChange={handleChange}
                     variant="fullWidth"
-                    TabIndicatorProps={{ style: { display: 'none' } }} // hide default indicator
-                    sx={{ bgcolor: '#007F6D', maxHeight: 32, alignItems: 'center' }} // Reduced from 40 to 32
+                    TabIndicatorProps={{ style: { display: 'none' } }}
+                    sx={{ bgcolor: '#007F6D', height: 32, alignItems: 'center' }} // Removed sticky positioning
                 >
                     {TABS.map((tab) => (
                         <Tab
@@ -201,9 +207,11 @@ const HomePage = () => {
                                 color: 'white',
                                 borderRadius: 1,
                                 mx: 0.5,
-                                minHeight: 32, // Ensure Tab height matches Tabs container
-                                padding: '6px 6px', // Reduce padding to fit content
-                                fontSize: '0.75rem', // Optional: smaller font size if needed
+                                height: 32,
+                                minHeight: 32,
+                                padding: '4px 8px',
+                                fontSize: '0.75rem',
+                                textTransform: 'none',
                                 '&.Mui-selected': {
                                     bgcolor: 'white',
                                     color: '#007F6D',
@@ -214,7 +222,13 @@ const HomePage = () => {
                     ))}
                 </Tabs>
 
-                <Box mt={2}>
+                <Box
+                    sx={{
+                        mt: 2,
+                        maxHeight: 'calc(100vh - 32px - 16px - 64px)', // Adjust based on Tabs (32px), padding (16px), and Header (64px)
+                        overflowY: 'auto',
+                    }}
+                >
                     {dummyData[selectedTab.toLowerCase()].map((item, index) => renderCard(item, index))}
                 </Box>
             </Box>
@@ -226,26 +240,27 @@ const HomePage = () => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: 300,
+                        width: 380,
                         bgcolor: 'background.paper',
                         borderRadius: 2,
                         boxShadow: 24,
                         p: 2,
+                        maxHeight: '80vh',
+                        overflowY: 'auto',
                     }}
                 >
                     <Grid container justifyContent="space-between" alignItems="center">
                         <Typography
                             variant="subtitle2"
                             fontWeight="bold"
-                            sx={{ flexShrink: 0, color: "black" }}
+                            sx={{ flexShrink: 0, color: 'black' }}
                         >
                             Predict {selectedCard?.title}
                         </Typography>
-                        <Button onClick={handleModalClose} size="small" sx={{ px: 0 }}>
+                        <Button onClick={handleModalClose} size="small" sx={{ px: 0, minWidth: 'auto' }}>
                             ✕
                         </Button>
                     </Grid>
-
 
                     <Box mt={1}>
                         <Typography variant="body2" color="text.secondary">
@@ -272,28 +287,31 @@ const HomePage = () => {
                             type="number"
                             fullWidth
                             sx={{ mt: 1 }}
+                            variant="outlined"
                         />
                         <Typography variant="caption" color="text.secondary" mt={1} display="block">
                             Min: 1 Tk | Max: 10Tk
                         </Typography>
                     </Box>
 
-                    <Grid container justifyContent="space-between" spacing={2} mt={4}>
-                        <Grid item xs={6}>
+                    <Grid container justifyContent="space-between" spacing={1} mt={2}>
+                        <Grid item xs={5.5}>
                             <Button
                                 fullWidth
                                 variant="outlined"
                                 onClick={handleModalClose}
+                                size="small"
                             >
                                 Cancel
                             </Button>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={5.5}>
                             <Button
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 disabled={!predictionValue}
+                                size="small"
                             >
                                 Submit
                             </Button>
@@ -301,7 +319,6 @@ const HomePage = () => {
                     </Grid>
                 </Box>
             </Modal>
-
         </Box>
     );
 };
