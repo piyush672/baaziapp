@@ -1,0 +1,185 @@
+/* src/screens/SlotsScreen.css */
+.slots-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f0f4f8; /* Disabled color background */
+  padding: 2rem;
+  box-sizing: border-box;
+  position: relative; /* For back button positioning */
+}
+
+.back-button {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  text-decoration: none;
+  color: #008b75; /* Primary color */
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 139, 117, 0.2);
+  transition: all 0.2s ease;
+  z-index: 10; /* Ensure it's above other elements */
+}
+
+.back-button:hover {
+  background-color: #e8f3f1;
+  box-shadow: 0 3px 6px rgba(0, 139, 117, 0.3);
+}
+
+.slots-screen h1 {
+  color: #008b75; /* Primary color */
+  margin-bottom: 2rem;
+}
+
+.slot-machine {
+  background-color: #ffffff; /* White background for machine */
+  border: 10px solid #c4a77d; /* Lighter Wood-like border */
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 0 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content; /* Adjust width based on content */
+  max-width: 90%;
+  position: relative; /* For potential decorative elements */
+}
+
+.reels-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* Space between reels */
+  margin-bottom: 2rem;
+  background-color: #f0f4f8; /* Match screen background */
+  padding: 1.5rem 1rem;
+  border-radius: 10px;
+  border: 3px solid #b0bec5; /* Slightly thicker, grey border */
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.reel {
+  background-color: #ffffff; /* White background for each reel */
+  border: 2px solid #eceff1; /* Lighter border */
+  border-radius: 8px;
+  width: 80px; /* Fixed width for reel */
+  height: 100px; /* Fixed height for reel */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Hide overflow during spin */
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05); /* Softer inset shadow */
+  position: relative;
+}
+
+.reel-icon {
+  font-size: 3.5rem; /* Large icon size */
+  transition: transform 0.1s ease-out; /* Smooth transition for flicker */
+  /* Ensure emojis render correctly */
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji",
+    sans-serif;
+}
+
+/* Basic Spinning Animation Placeholder */
+.reel.spinning .reel-icon {
+  /* Slight blur effect */
+  filter: blur(1px);
+  animation: verticalShift 0.08s infinite linear;
+}
+
+@keyframes verticalShift {
+  0% {
+    transform: translateY(-3px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+  100% {
+    transform: translateY(-3px);
+  }
+}
+
+.spin-button {
+  background-color: #008b75; /* Primary color */
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.3rem;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 0 #006f5c, 0 6px 8px rgba(0, 0, 0, 0.2); /* 3D effect with primary shade */
+  margin-bottom: 1rem; /* Space before message */
+}
+
+.spin-button:hover {
+  background-color: #006f5c;
+  box-shadow: 0 3px 0 #005a4a, 0 5px 7px rgba(0, 0, 0, 0.15);
+  transform: translateY(1px);
+}
+
+.spin-button:active {
+  background-color: #005a4a;
+  box-shadow: 0 2px 0 #004a3d, 0 3px 5px rgba(0, 0, 0, 0.1);
+  transform: translateY(2px);
+}
+
+.spin-button:disabled {
+  background-color: #90a4ae; /* Muted primary/grey */
+  color: #eceff1;
+  cursor: not-allowed;
+  box-shadow: 0 4px 0 #607d8b;
+  transform: translateY(0);
+}
+
+.slot-message {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: #008b75; /* Primary color for message */
+  font-weight: bold;
+  min-height: 1.5em; /* Reserve space for message */
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .reel {
+    width: 65px; /* Adjusted size */
+    height: 85px; /* Adjusted size */
+  }
+  .reel-icon {
+    font-size: 3rem; /* Adjusted size */
+  }
+  .spin-button {
+    font-size: 1.1rem;
+    padding: 0.7rem 1.8rem;
+  }
+  .slot-machine {
+    padding: 1.5rem;
+    border-width: 8px;
+  }
+  .reels-container {
+    padding: 1rem 0.5rem;
+    gap: 0.8rem;
+  }
+  .back-button {
+    top: 1rem;
+    left: 1rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  .slots-screen h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  .slot-message {
+    font-size: 1.1rem;
+  }
+}

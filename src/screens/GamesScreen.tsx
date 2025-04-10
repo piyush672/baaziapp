@@ -1,5 +1,6 @@
 // src/screens/GamesScreen.tsx
 import React from "react";
+import { Link } from "react-router-dom"; // Import Link
 import "./GamesScreen.css"; // Import the CSS for styling
 
 const GamesScreen: React.FC = () => {
@@ -24,13 +25,10 @@ const GamesScreen: React.FC = () => {
           <div className="game-card-content">
             <h2>Slots</h2>
             <p>Spin the reels and try your luck!</p>
-            {/* Add a button or link to play - could link to a specific route or handle logic */}
-            <button
-              className="play-button"
-              onClick={() => alert("Starting Slots!")}
-            >
+            {/* Use Link to navigate */}
+            <Link to="/games/slots" className="play-button">
               Play Now
-            </button>
+            </Link>
           </div>
         </div>
 

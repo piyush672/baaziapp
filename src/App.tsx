@@ -3,6 +3,7 @@ import "./App.css";
 import HomePage from "./screens/HomeScreen";
 import BalanceScreen from "./screens/BalanceScreen";
 import GamesScreen from "./screens/GamesScreen";
+import SlotsScreen from "./screens/SlotsScreen";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/balance" element={<BalanceScreen />} />
         <Route path="/games" element={<GamesScreen />} />
+        <Route path="/games/slots" element={<SlotsScreen />} />
       </Routes>
     </Router>
   );
