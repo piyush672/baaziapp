@@ -1,116 +1,160 @@
 /* src/screens/GamesScreen.css */
 .games-screen {
-  padding: 2rem;
+  padding: 0; /* Remove padding to allow banner to span full width */
   text-align: center;
-  background-color: #f4f7f6; /* Light background for the whole screen */
-  min-height: calc(
-    100vh - 60px
-  ); /* Adjust 60px based on actual Navbar height */
+  background-color: #f0f4f8; /* Use Disabled color for screen background */
+  min-height: calc(100vh);
 }
 
-.games-screen h1 {
-  margin-bottom: 2rem;
-  color: #333;
-  font-weight: 600;
+/* Banner Styles */
+.games-banner {
+  width: 100%;
+  height: 180px; /* Or adjust based on image aspect ratio */
+  margin-bottom: 2rem; /* Keep space below banner */
+  overflow: hidden; /* Ensure image respects container bounds */
+  background-color: #f0f4f8; /* Background color while image loads or if it fails */
+}
+
+.banner-image {
+  display: block; /* Remove extra space below image */
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the banner area, may crop */
+  object-position: center; /* Center the image within the banner */
 }
 
 .games-list {
   display: flex;
-  flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
-  justify-content: center; /* Center cards horizontally */
-  gap: 2rem; /* Increased spacing between cards */
-  padding: 0 1rem; /* Add some padding on the sides */
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 0 1rem 2rem 1rem; /* Keep padding for cards */
+  max-width: 1200px; /* Optional: Constrain max width on very wide screens */
+  margin: 0 auto; /* Center the list container */
 }
 
 .game-card {
-  background-color: #fff;
-  border-radius: 12px; /* More rounded corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Softer shadow */
-  overflow: hidden; /* Ensure content respects border radius */
-  width: 280px; /* Slightly wider card */
+  background-color: #ffffff; /* Use White for card background */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 139, 117, 0.08); /* Subtle shadow with primary color hint */
+  overflow: hidden;
+  width: calc(
+    50% - 1rem
+  ); /* Adjust width for two columns, accounting for gap */
+  min-width: 250px; /* Prevent cards from becoming too narrow */
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   display: flex;
-  flex-direction: column; /* Stack image and content vertically */
-  text-align: left; /* Align text to the left within the card */
+  flex-direction: column;
+  text-align: left;
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 640px) {
+  .game-card {
+    width: calc(
+      100% - 2rem
+    ); /* Stack cards vertically, adjust width as needed */
+    /* Or use width: 90%; or width: 100%; depending on desired look */
+    min-width: unset; /* Remove min-width on small screens */
+  }
 }
 
 .game-card:hover {
-  transform: translateY(-6px); /* Slightly more lift effect on hover */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 16px rgba(0, 139, 117, 0.12); /* Slightly stronger shadow on hover */
 }
 
 .game-card-image {
-  height: 160px; /* Slightly taller image area */
-  background-color: #e0e0e0; /* Placeholder background */
+  height: 160px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.8rem; /* Larger text */
+  font-size: 1.8rem;
   font-weight: bold;
-  color: #555;
-  border-bottom: 1px solid #eee; /* Separator line */
+  color: #ffffff; /* White text on colored background */
+  border-bottom: 1px solid #eee;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Simple shadow for readability */
+  letter-spacing: 2px;
 }
 
 /* Specific styling for the slots image placeholder */
 .slots-image {
-  background: linear-gradient(
-    135deg,
-    #ff9a8b 0%,
-    #ff6a88 50%,
-    #ff99ac 100%
-  ); /* Pink/Orange gradient */
-  color: white;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-  letter-spacing: 2px;
+  background-color: #008b75; /* Primary color background */
+}
+
+/* Specific styling for the wheel image placeholder */
+.wheel-image {
+  background-color: #00a08a; /* Slightly lighter shade of primary */
+}
+
+/* Specific styling for the quiz image placeholder */
+.quiz-image {
+  background-color: #4caf50; /* Green color for quiz */
 }
 
 .game-card-content {
-  padding: 1.25rem; /* More padding */
-  flex-grow: 1; /* Allow content to fill remaining space */
+  padding: 1.25rem;
+  flex-grow: 1;
   display: flex;
-  flex-direction: column; /* Stack content vertically */
+  flex-direction: column;
 }
 
 .game-card-content h2 {
   margin-top: 0;
   margin-bottom: 0.5rem;
-  font-size: 1.3rem; /* Larger heading */
-  color: #2c3e50; /* Darker blue-grey heading */
+  font-size: 1.3rem;
+  color: #008b75; /* Primary color for card headings */
   font-weight: 600;
 }
 
 .game-card-content p {
-  font-size: 0.95rem; /* Slightly larger paragraph text */
-  color: #555;
-  margin-bottom: 1.5rem; /* More space before button */
+  font-size: 0.95rem;
+  color: #555; /* Keep standard text color */
+  margin-bottom: 1.5rem;
   line-height: 1.5;
-  flex-grow: 1; /* Push button to the bottom */
+  flex-grow: 1;
 }
 
 .play-button {
-  background: linear-gradient(45deg, #007bff, #0056b3);
-  color: white;
+  background-color: #008b75; /* Primary color for button */
+  color: white !important; /* Ensure text color applies to links */
   border: none;
-  padding: 0.75rem 1.5rem; /* Larger padding */
+  padding: 0.75rem 1.5rem;
   border-radius: 6px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 500;
   transition: all 0.2s ease-in-out;
   text-align: center;
-  display: block; /* Ensure it takes full width if needed, but text-align centers */
-  width: 100%; /* Make button full width */
-  margin-top: auto; /* Push button to the bottom */
-  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+  display: block;
+  width: 100%;
+  margin-top: auto;
+  box-shadow: 0 2px 4px rgba(0, 139, 117, 0.3);
+  text-decoration: none; /* Ensure no underline for links */
+  box-sizing: border-box; /* Include padding/border in width */
 }
 
 .play-button:hover {
-  background: linear-gradient(45deg, #0069d9, #004085);
+  background-color: #006f5c; /* Darker shade of primary on hover */
+  color: white !important; /* Ensure hover text color applies */
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 4px 8px rgba(0, 139, 117, 0.4);
+  text-decoration: none; /* Ensure no underline on hover */
 }
 
 .play-button:active {
+  background-color: #005a4a; /* Even darker shade on active */
   transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 139, 117, 0.3);
 }
+
+/* Consider adding styles for a disabled button state using #F0F4F8 */
+/*
+.play-button:disabled {
+  background-color: #E0E0E0; // Or use #F0F4F8 if contrast is sufficient
+  color: #A0A0A0;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+*/

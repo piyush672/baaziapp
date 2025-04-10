@@ -1,11 +1,20 @@
 // src/screens/GamesScreen.tsx
 import React from "react";
+import { Link } from "react-router-dom"; // Import Link
 import "./GamesScreen.css"; // Import the CSS for styling
 
 const GamesScreen: React.FC = () => {
   return (
     <div className="games-screen">
-      <h1>Available Games</h1>
+      {/* Banner Image */}
+      <div className="games-banner">
+        <img
+          src="https://d1ioice0blp2od.cloudfront.net/fmtapp%2Fasset%2F2025%2F4%2F10%2F6953393b-3f37-49be-a441-e6f49034444f_farmer_slots.png"
+          alt="Farmer enjoying games on a mobile device"
+          className="banner-image"
+        />
+      </div>
+
       <div className="games-list">
         {/* Game Card: Slots */}
         <div className="game-card">
@@ -16,13 +25,44 @@ const GamesScreen: React.FC = () => {
           <div className="game-card-content">
             <h2>Slots</h2>
             <p>Spin the reels and try your luck!</p>
-            {/* Add a button or link to play - could link to a specific route or handle logic */}
+            {/* Use Link to navigate */}
+            <Link to="/games/slots" className="play-button">
+              Play Now
+            </Link>
+          </div>
+        </div>
+
+        {/* Game Card: Spin the Wheel */}
+        <div className="game-card">
+          <div className="game-card-image wheel-image">
+            {/* Placeholder for an image or icon */}
+            <span>WHEEL</span>
+          </div>
+          <div className="game-card-content">
+            <h2>Spin the Wheel</h2>
+            <p>Spin for a chance to win prizes!</p>
             <button
               className="play-button"
-              onClick={() => alert("Starting Slots!")}
+              onClick={() => alert("Starting Spin the Wheel!")}
             >
               Play Now
             </button>
+          </div>
+        </div>
+
+        {/* Game Card: Kisan Quiz */}
+        <div className="game-card">
+          <div className="game-card-image quiz-image">
+            {/* Placeholder for an image or icon */}
+            <span>QUIZ</span>
+          </div>
+          <div className="game-card-content">
+            <h2>Kisan Quiz</h2>
+            <p>Test your farming knowledge!</p>
+            {/* Use Link to navigate */}
+            <Link to="/games/kisan-quiz" className="play-button">
+              Play Now
+            </Link>
           </div>
         </div>
 
