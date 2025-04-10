@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Typography,
   Box,
@@ -9,10 +10,9 @@ import {
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import BuildIcon from "@mui/icons-material/Build";// ✅ Added icoin
+import BuildIcon from "@mui/icons-material/Build"; // ✅ Added icoin
 import SmsIcon from "@mui/icons-material/Sms";
 import Header from "../components/header";
-
 
 const benefits = [
   {
@@ -42,12 +42,20 @@ const benefits = [
 ];
 
 const BalanceScreen = () => {
+  const navigate = useNavigate();
+
+  const handleCashout = () => {
+    // TODO: Implement actual cashout API call here
+    // On successful response from API:
+    navigate("/cashout-success");
+  };
+
   return (
     <Box sx={{ bgcolor: "white", minHeight: "100vh" }}>
-      <Box sx={{ position: 'sticky', top: 0, zIndex: 2 }} >
+      <Box sx={{ position: "sticky", top: 0, zIndex: 2 }}>
         <Header showBack={true} />
-      </Box> {/* Make Header sticky */}
-
+      </Box>{" "}
+      {/* Make Header sticky */}
       {/* ✅ Balance Card with Gold Icon */}
       <Box
         sx={{
@@ -61,7 +69,11 @@ const BalanceScreen = () => {
       >
         <Typography variant="body2">Available Coins</Typography>
         <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
-          <img src={"/gold-coin-rupee-icon.svg"} alt="Trophy" style={{ width: "2rem", marginRight: "0.5rem" }} />
+          <img
+            src={"/gold-coin-rupee-icon.svg"}
+            alt="Trophy"
+            style={{ width: "2rem", marginRight: "0.5rem" }}
+          />
           <Typography variant="h4" fontWeight="bold">
             10,000
           </Typography>
@@ -76,11 +88,11 @@ const BalanceScreen = () => {
             textTransform: "none",
             borderRadius: 2,
           }}
+          onClick={handleCashout}
         >
           Cashout
         </Button>
       </Box>
-
       {/* Benefits Section */}
       <Box px={2}>
         <Typography variant="subtitle1" fontWeight="bold" gutterBottom>

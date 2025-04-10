@@ -6,6 +6,7 @@ import GamesScreen from "./screens/GamesScreen";
 import Layout from "./layout";
 import SlotsScreen from "./screens/SlotsScreen";
 import KisanQuizScreen from "./screens/KisanQuizScreen";
+import CashoutSuccessScreen from "./screens/CashoutSuccessScreen";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         </Route>
         <Route path="/games/slots" element={<SlotsScreen />} />
         <Route path="/games/kisan-quiz" element={<KisanQuizScreen />} />
+        <Route path="/cashout-success" element={<CashoutSuccessScreen />} />
       </Routes>
     </Router>
   );
