@@ -1,0 +1,201 @@
+/* src/screens/KisanQuizScreen.css */
+.kisan-quiz-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align content to top */
+  min-height: 100vh;
+  background-color: #f0f4f8; /* Disabled color background */
+  padding: 5rem 1rem 2rem 1rem; /* More top padding */
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Reusing back-button style from SlotsScreen.css if it's global,
+   otherwise copy the styles here */
+.back-button {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  text-decoration: none;
+  color: #008b75;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 139, 117, 0.2);
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.back-button:hover {
+  background-color: #e8f3f1;
+  box-shadow: 0 3px 6px rgba(0, 139, 117, 0.3);
+}
+
+.kisan-quiz-screen h1 {
+  color: #008b75; /* Primary color */
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.quiz-info-box {
+  background-color: #e0f2f7; /* Light blue/cyan background */
+  color: #00778a;
+  border: 1px solid #b3e5fc;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 0.95rem;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.quiz-container,
+.score-section {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 139, 117, 0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.question-section {
+  margin-bottom: 1.5rem;
+}
+
+.question-count {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.question-text {
+  font-size: 1.3rem;
+  color: #333;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.answer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.answer-button {
+  background-color: #ffffff;
+  color: #008b75; /* Primary color text */
+  border: 2px solid #008b75; /* Primary color border */
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  text-align: left;
+  width: 100%;
+}
+
+.answer-button:not(:disabled):hover {
+  background-color: #e8f3f1; /* Light primary shade on hover */
+  border-color: #006f5c;
+  color: #006f5c;
+}
+
+.answer-button.correct {
+  background-color: #4caf50; /* Green for correct */
+  color: white;
+  border-color: #4caf50;
+  font-weight: bold;
+}
+
+.answer-button.incorrect {
+  background-color: #f44336; /* Red for incorrect */
+  color: white;
+  border-color: #f44336;
+  font-weight: bold;
+}
+
+.answer-button.disabled:not(.correct) {
+  background-color: #f0f4f8; /* Disabled background */
+  color: #aaa;
+  border-color: #ddd;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Score Section */
+.score-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-section h2 {
+  color: #008b75;
+  margin-bottom: 1rem;
+}
+
+.score-section p {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.play-again-button {
+  background-color: #008b75; /* Primary color */
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 0 #006f5c; /* 3D effect */
+}
+
+.play-again-button:hover {
+  background-color: #006f5c;
+  box-shadow: 0 3px 0 #005a4a;
+  transform: translateY(1px);
+}
+
+.play-again-button:active {
+  background-color: #005a4a;
+  box-shadow: 0 2px 0 #004a3d;
+  transform: translateY(2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .kisan-quiz-screen {
+    padding-top: 6rem; /* Adjust padding for smaller screens */
+  }
+  .quiz-container,
+  .score-section {
+    padding: 1.5rem;
+  }
+  .question-text {
+    font-size: 1.1rem;
+  }
+  .answer-button {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+  .play-again-button {
+    font-size: 1rem;
+    padding: 0.7rem 1.5rem;
+  }
+  .back-button {
+    top: 1rem;
+    left: 1rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}

@@ -9,7 +9,7 @@ const GamesScreen: React.FC = () => {
       {/* Banner Image */}
       <div className="games-banner">
         <img
-          src="https://d1ioice0blp2od.cloudfront.net/fmtapp%2Fasset%2F2025%2F4%2F10%2Fa207a17d-74d3-4611-ba02-e132da23ee4f_farmer_slots.png"
+          src="https://d1ioice0blp2od.cloudfront.net/fmtapp%2Fasset%2F2025%2F4%2F10%2F6953393b-3f37-49be-a441-e6f49034444f_farmer_slots.png"
           alt="Farmer enjoying games on a mobile device"
           className="banner-image"
         />
@@ -47,6 +47,22 @@ const GamesScreen: React.FC = () => {
             >
               Play Now
             </button>
+          </div>
+        </div>
+
+        {/* Game Card: Kisan Quiz */}
+        <div className="game-card">
+          <div className="game-card-image quiz-image">
+            {/* Placeholder for an image or icon */}
+            <span>QUIZ</span>
+          </div>
+          <div className="game-card-content">
+            <h2>Kisan Quiz</h2>
+            <p>Test your farming knowledge!</p>
+            {/* Use Link to navigate */}
+            <Link to="/games/kisan-quiz" className="play-button">
+              Play Now
+            </Link>
           </div>
         </div>
 

@@ -4,6 +4,7 @@ import HomePage from "./screens/HomeScreen";
 import BalanceScreen from "./screens/BalanceScreen";
 import GamesScreen from "./screens/GamesScreen";
 import SlotsScreen from "./screens/SlotsScreen";
+import KisanQuizScreen from "./screens/KisanQuizScreen";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/balance" element={<BalanceScreen />} />
         <Route path="/games" element={<GamesScreen />} />
         <Route path="/games/slots" element={<SlotsScreen />} />
+        <Route path="/games/kisan-quiz" element={<KisanQuizScreen />} />
       </Routes>
     </Router>
   );

@@ -87,6 +87,11 @@
   background-color: #00a08a; /* Slightly lighter shade of primary */
 }
 
+/* Specific styling for the quiz image placeholder */
+.quiz-image {
+  background-color: #4caf50; /* Green color for quiz */
+}
+
 .game-card-content {
   padding: 1.25rem;
   flex-grow: 1;
@@ -112,7 +117,7 @@
 
 .play-button {
   background-color: #008b75; /* Primary color for button */
-  color: white;
+  color: white !important; /* Ensure text color applies to links */
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
@@ -124,13 +129,17 @@
   display: block;
   width: 100%;
   margin-top: auto;
-  box-shadow: 0 2px 4px rgba(0, 139, 117, 0.3); /* Shadow with primary color hint */
+  box-shadow: 0 2px 4px rgba(0, 139, 117, 0.3);
+  text-decoration: none; /* Ensure no underline for links */
+  box-sizing: border-box; /* Include padding/border in width */
 }
 
 .play-button:hover {
   background-color: #006f5c; /* Darker shade of primary on hover */
+  color: white !important; /* Ensure hover text color applies */
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 139, 117, 0.4);
+  text-decoration: none; /* Ensure no underline on hover */
 }
 
 .play-button:active {
