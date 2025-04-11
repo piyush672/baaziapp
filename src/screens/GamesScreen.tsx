@@ -16,6 +16,41 @@ const GamesScreen: React.FC = () => {
       </div>
 
       <div className="games-list">
+        {/* New Game Card: Kheeti11 */}
+        <div className="game-card">
+          {/* Use the provided image for Kheeti11 */}
+          <div className="game-card-image kheeti11-image">
+            <img src="https://iili.io/3c3fXj4.jpg" alt="Kheeti11 Game" />
+          </div>
+          <div className="game-card-content">
+            <h2>Kheeti11</h2>
+            <p>Kheetibaazi pe khet banao aur tractor jeetne ka mauka pao</p>
+            {/* Assuming this opens an external link or another route */}
+            <button
+              className="play-button"
+              onClick={() => alert("Kheeti11 game TBD!")}
+            >
+              Play Now
+            </button>
+          </div>
+        </div>
+
+        {/* Game Card: Kisan Quiz */}
+        <div className="game-card">
+          <div className="game-card-image quiz-image">
+            {/* Use the provided image for Kisan Quiz */}
+            <img src="https://iili.io/3c3oO7t.md.png" alt="Kisan Quiz Game" />
+          </div>
+          <div className="game-card-content">
+            <h2>Kisan Quiz</h2>
+            <p>Test your farming knowledge!</p>
+            {/* Use Link to navigate */}
+            <Link to="/games/kisan-quiz" className="play-button">
+              Play Now
+            </Link>
+          </div>
+        </div>
+
         {/* Game Card: Slots */}
         <div className="game-card">
           <div className="game-card-image slots-image">
@@ -47,22 +82,6 @@ const GamesScreen: React.FC = () => {
             >
               Play Now
             </button>
-          </div>
-        </div>
-
-        {/* Game Card: Kisan Quiz */}
-        <div className="game-card">
-          <div className="game-card-image quiz-image">
-            {/* Placeholder for an image or icon */}
-            <span>QUIZ</span>
-          </div>
-          <div className="game-card-content">
-            <h2>Kisan Quiz</h2>
-            <p>Test your farming knowledge!</p>
-            {/* Use Link to navigate */}
-            <Link to="/games/kisan-quiz" className="play-button">
-              Play Now
-            </Link>
           </div>
         </div>
 

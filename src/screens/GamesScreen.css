@@ -75,6 +75,15 @@
   border-bottom: 1px solid #eee;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Simple shadow for readability */
   letter-spacing: 2px;
+  overflow: hidden; /* Ensure image doesn't overflow container */
+}
+
+/* Style for the image itself */
+.game-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the area, might crop */
+  display: block; /* Remove extra space below image */
 }
 
 /* Specific styling for the slots image placeholder */
@@ -90,6 +99,15 @@
 /* Specific styling for the quiz image placeholder */
 .quiz-image {
   background-color: #4caf50; /* Green color for quiz */
+}
+
+/* Specific styling for the kheeti11 image */
+.kheeti11-image {
+  background-color: #f0f4f8; /* Fallback background */
+  /* Remove text styles if they interfere */
+  color: transparent;
+  text-shadow: none;
+  letter-spacing: normal;
 }
 
 .game-card-content {
