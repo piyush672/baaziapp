@@ -138,6 +138,7 @@ const dummyData: DummyData = {
       amount: "₹100",
       reward: "-₹500", // Update to show loss amount
       date: "15/03/2024",
+      image: "https://iili.io/3cFBWPV.md.png", // Add image URL
     },
   ],
 };
