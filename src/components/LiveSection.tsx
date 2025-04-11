@@ -41,9 +41,11 @@ const LiveSection: React.FC<LiveSectionProps> = ({
   // Handle clicks on the card itself or a specific button/area
   const handleCardClick = (item: LiveItem) => {
     if (item.type === "ternary") {
-      // Navigate using react-router-dom, passing data via state
-      // Ensure the path '/monsoon-detail' matches your Route setup
+      // Navigate to Monsoon detail screen
       navigate("/monsoon-detail", { state: { cardData: item } });
+    } else if (item.type === "binary") {
+      // Navigate to Mustard detail screen (adjust path if needed)
+      navigate("/mustard-detail", { state: { cardData: item } });
     } else {
       onPredictClick(item); // Call original function to open modal
     }
