@@ -18,7 +18,7 @@ const BottomTabBar = () => {
                 position: 'fixed',
                 bottom: 0,
                 width: '100%',
-                maxWidth: 400, // Match the container width
+                maxWidth: 380, // Match the container width
                 zIndex: 10,
                 height: '56px'
             }}

@@ -9,7 +9,7 @@ const Layout = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 minHeight: '100vh', // Full viewport height
-                maxWidth: 400,
+                maxWidth: 380,
                 mx: 'auto',
                 bgcolor: 'white',
                 position: 'relative',

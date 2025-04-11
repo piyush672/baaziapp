@@ -232,7 +232,7 @@ const MustardDetailScreen = () => {
             >
               Prediction Options & Odds
             </Typography>
-            <Grid container spacing={2} textAlign="center" sx={{ mb: 1.5 }}>
+            <Grid container spacing={2} textAlign="center" sx={{ mb: 1.5 }} justifyContent={'space-between'}>
               <Grid item xs={6}>
                 {" "}
                 {/* Up Option */}
