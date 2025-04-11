@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Typography,
   Button,
@@ -7,18 +7,13 @@ import {
   Box,
   Grid,
   Modal,
-  TextField,
   Card,
   CardContent,
-  IconButton,
-  ToggleButton,
-  ToggleButtonGroup,
-  InputAdornment,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CloseIcon from "@mui/icons-material/Close";
 import LiveSection from "../components/LiveSection";
 import PendingSection from "../components/PendingSection";
+import PredictionModal from "../components/PredictionModal";
 
 // Define interfaces for the data structures
 interface LiveItem {
@@ -142,12 +137,6 @@ const HomePage = () => {
   const [winModalOpen, setWinModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState<LiveItem | null>(null);
-  const [predictionValue, setPredictionValue] = useState(""); // For number type
-  const [betAmount, setBetAmount] = useState("");
-  const [selectedChoice, setSelectedChoice] = useState<string | null>(null); // Handles 'Up', 'Down', 'before', 'on', 'after'
-  const [potentialWinnings, setPotentialWinnings] = useState<number | null>(
-    null
-  );
   const [selectedResult, setSelectedResult] = useState<CompletedItem | null>(
     null
   );
@@ -158,71 +147,21 @@ const HomePage = () => {
 
   const handlePredictClick = (card: LiveItem) => {
     setSelectedCard(card);
-    setPredictionValue(""); // Reset numeric prediction
-    setSelectedChoice(null); // Reset choice prediction
-    setBetAmount("");
-    setPotentialWinnings(null);
     setModalOpen(true);
   };
 
   const handleModalClose = () => {
     setModalOpen(false);
-    setSelectedCard(null);
-    setPredictionValue("");
-    setBetAmount("");
-    setSelectedChoice(null); // Reset choice prediction
-    setPotentialWinnings(null);
   };
 
-  useEffect(() => {
-    const bet = parseFloat(betAmount);
-    let winnings: number | null = null;
-    if (!isNaN(bet) && bet > 0 && selectedCard) {
-      if (selectedCard.type === "number" && predictionValue) {
-        const multiplierMatch = selectedCard.returns?.match(/(\d+(\.\d+)?)/);
-        const multiplier = multiplierMatch ? parseFloat(multiplierMatch[0]) : 1;
-        winnings = bet * multiplier;
-      } else if (
-        (selectedCard.type === "binary" || selectedCard.type === "ternary") &&
-        selectedChoice &&
-        selectedCard.odds
-      ) {
-        const odd = selectedCard.odds[selectedChoice]; // Get odd based on selected choice key
-        if (odd) {
-          winnings = bet * odd;
-        }
-      }
-    }
-    setPotentialWinnings(winnings);
-  }, [betAmount, predictionValue, selectedChoice, selectedCard]); // Add selectedChoice to dependencies
-
-  const handleBetAmountPreset = (amount: string) => {
-    setBetAmount(amount);
-  };
-
-  const handleSubmitPrediction = () => {
-    let predictionData: string | null = null;
-    let oddApplied: number | undefined;
-
-    if (selectedCard?.type === "number") {
-      predictionData = predictionValue;
-    } else if (
-      (selectedCard?.type === "binary" || selectedCard?.type === "ternary") &&
-      selectedChoice
-    ) {
-      predictionData = selectedChoice;
-      oddApplied = selectedCard?.odds?.[selectedChoice];
-    }
-
-    const submissionData = {
-      cardTitle: selectedCard?.title,
-      bet: betAmount,
-      prediction: predictionData,
-      ...(oddApplied !== undefined && { odds: oddApplied }),
-    };
-    console.log("Prediction Submitted:", submissionData);
-    handleModalClose();
-    alert("Bet placed successfully!");
+  const handlePredictionSubmit = (submission: {
+    cardTitle: string | undefined;
+    bet: string;
+    prediction: string | null;
+    odds?: number;
+  }) => {
+    console.log("Prediction Submitted from HomePage:", submission);
+    alert("Bet placed successfully! (From HomePage)");
   };
 
   const handleWinModalOpen = (result: CompletedItem) => {
@@ -438,299 +377,12 @@ const HomePage = () => {
         </Box>
       </Box>
 
-      <Modal
+      <PredictionModal
         open={modalOpen}
         onClose={handleModalClose}
-        sx={{
-          display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "center",
-        }}
-      >
-        <Box
-          sx={{
-            width: "100%",
-            maxWidth: 500,
-            bgcolor: "background.paper",
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-            boxShadow: "0 -5px 15px rgba(0,0,0,0.1)",
-            outline: "none",
-            maxHeight: "90vh",
-          }}
-        >
-          <Box
-            sx={{
-              bgcolor: PRIMARY_COLOR,
-              color: "white",
-              p: 2,
-              borderTopLeftRadius: 16,
-              borderTopRightRadius: 16,
-            }}
-          >
-            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-              Potential Winnings
-            </Typography>
-            <Typography variant="h4" fontWeight="bold">
-              ₹
-              {potentialWinnings !== null ? potentialWinnings.toFixed(0) : "--"}
-            </Typography>
-            <Typography variant="caption" sx={{ opacity: 0.9 }}>
-              {selectedCard?.type === "number" &&
-                `${
-                  selectedCard?.returns || "-"
-                } returns on accurate prediction`}
-              {(selectedCard?.type === "binary" ||
-                selectedCard?.type === "ternary") &&
-                selectedChoice &&
-                selectedCard.odds &&
-                selectedCard.odds[selectedChoice] &&
-                `${selectedCard.odds[selectedChoice]}x returns on accurate prediction`}
-              {(selectedCard?.type === "binary" ||
-                selectedCard?.type === "ternary") &&
-                !selectedChoice &&
-                `Select an option to see potential returns`}
-            </Typography>
-          </Box>
-
-          <Box
-            sx={{ p: 2.5, overflowY: "auto", maxHeight: "calc(90vh - 100px)" }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                mb: 1,
-              }}
-            >
-              <Typography variant="h6" component="h2" fontWeight="bold">
-                Predict {selectedCard?.title || "Price"}
-              </Typography>
-              <IconButton
-                onClick={handleModalClose}
-                size="small"
-                sx={{ p: 0.2 }}
-              >
-                <CloseIcon fontSize="small" />
-              </IconButton>
-            </Box>
-
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              display="block"
-              sx={{ mb: 1.5 }}
-            >
-              {selectedCard?.type === "number"
-                ? `Current Price: ${selectedCard?.price || "—"}`
-                : selectedCard?.price || "—"}
-            </Typography>
-
-            {selectedCard?.type === "number" && (
-              <Box mb={2}>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mb: 0.5 }}
-                >
-                  Your Prediction
-                </Typography>
-                <TextField
-                  placeholder="Enter predicted price"
-                  type="number"
-                  fullWidth
-                  value={predictionValue}
-                  onChange={(e) => setPredictionValue(e.target.value)}
-                  sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
-                  variant="outlined"
-                  size="small"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">₹/Qtl</InputAdornment>
-                    ),
-                  }}
-                />
-                <Typography
-                  variant="caption"
-                  color="text.secondary"
-                  display="block"
-                  sx={{ mt: 0.5 }}
-                >
-                  Range: {selectedCard?.range || "—"} | Returns{" "}
-                  {selectedCard?.returns || "—"}
-                </Typography>
-              </Box>
-            )}
-
-            {selectedCard?.type === "binary" && selectedCard.odds && (
-              <Box mb={2}>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mb: 1 }}
-                >
-                  Your Prediction
-                </Typography>
-                <ToggleButtonGroup
-                  value={selectedChoice}
-                  exclusive
-                  onChange={(e, newValue) => {
-                    if (newValue !== null) {
-                      setSelectedChoice(newValue);
-                    }
-                  }}
-                  aria-label="Binary Prediction Type"
-                  fullWidth
-                  sx={{
-                    gap: 1,
-                    "& .MuiToggleButtonGroup-grouped": {
-                      borderRadius: "8px !important",
-                      border: `1px solid ${PRIMARY_COLOR} !important`,
-                      color: PRIMARY_COLOR,
-                      flex: 1,
-                      py: 1,
-                      textTransform: "none",
-                      fontWeight: 500,
-                    },
-                    "& .Mui-selected": {
-                      bgcolor: `${PRIMARY_COLOR} !important`,
-                      color: "white !important",
-                      fontWeight: "bold",
-                    },
-                  }}
-                >
-                  {Object.entries(selectedCard.odds).map(([key, oddValue]) => (
-                    <ToggleButton key={key} value={key} aria-label={key}>
-                      {key.charAt(0).toUpperCase() + key.slice(1)} ({oddValue}x)
-                    </ToggleButton>
-                  ))}
-                </ToggleButtonGroup>
-              </Box>
-            )}
-
-            {selectedCard?.type === "ternary" && selectedCard.odds && (
-              <Box mb={2}>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mb: 1 }}
-                >
-                  Your Prediction
-                </Typography>
-                <ToggleButtonGroup
-                  value={selectedChoice}
-                  exclusive
-                  onChange={(e, newValue) => {
-                    if (newValue !== null) {
-                      setSelectedChoice(newValue);
-                    }
-                  }}
-                  aria-label="Ternary Prediction Type"
-                  fullWidth
-                  sx={{
-                    gap: 1,
-                    "& .MuiToggleButtonGroup-grouped": {
-                      borderRadius: "8px !important",
-                      border: `1px solid ${PRIMARY_COLOR} !important`,
-                      color: PRIMARY_COLOR,
-                      flex: 1,
-                      py: 1,
-                      textTransform: "none",
-                      fontWeight: 500,
-                    },
-                    "& .Mui-selected": {
-                      bgcolor: `${PRIMARY_COLOR} !important`,
-                      color: "white !important",
-                      fontWeight: "bold",
-                    },
-                  }}
-                >
-                  <ToggleButton value="before" aria-label="Before 25 Aug">
-                    Before 25 Aug ({selectedCard.odds.before}x)
-                  </ToggleButton>
-                  <ToggleButton value="on" aria-label="On 25 Aug">
-                    On 25 Aug ({selectedCard.odds.on}x)
-                  </ToggleButton>
-                  <ToggleButton value="after" aria-label="After 25 Aug">
-                    After 25 Aug ({selectedCard.odds.after}x)
-                  </ToggleButton>
-                </ToggleButtonGroup>
-              </Box>
-            )}
-
-            <Box sx={{ bgcolor: "#f7f7f7", p: 2, borderRadius: 2, mb: 2 }}>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                Bet Amount
-              </Typography>
-              <ToggleButtonGroup
-                value={betAmount}
-                exclusive
-                onChange={(e, val) => val && handleBetAmountPreset(val)}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  mb: 1.5,
-                  gap: 1,
-                  "& .MuiToggleButtonGroup-grouped": {
-                    borderRadius: "8px !important",
-                    border: `1px solid #ccc !important`,
-                    color: PRIMARY_COLOR,
-                    fontWeight: 500,
-                    px: 1.5,
-                    py: 0.5,
-                    fontSize: "0.8rem",
-                    flex: "1 1 auto",
-                  },
-                  "& .Mui-selected": {
-                    bgcolor: PRIMARY_COLOR,
-                    color: "white !important",
-                    borderColor: `${PRIMARY_COLOR} !important`,
-                  },
-                }}
-              >
-                <ToggleButton value="100">₹100</ToggleButton>
-                <ToggleButton value="500">₹500</ToggleButton>
-                <ToggleButton value="1000">₹1000</ToggleButton>
-              </ToggleButtonGroup>
-
-              <TextField
-                placeholder="Enter custom amount"
-                type="number"
-                fullWidth
-                value={betAmount}
-                onChange={(e) => setBetAmount(e.target.value)}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
-                    bgcolor: "white",
-                  },
-                }}
-                variant="outlined"
-                size="small"
-              />
-            </Box>
-
-            <Button
-              fullWidth
-              variant="contained"
-              onClick={handleSubmitPrediction}
-              sx={{
-                bgcolor: PRIMARY_COLOR,
-                textTransform: "none",
-                borderRadius: 2,
-                boxShadow: "none",
-                py: 1.5,
-                fontSize: "1rem",
-                fontWeight: "bold",
-                "&:hover": { bgcolor: "#006F5C" },
-              }}
-            >
-              Submit Prediction
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+        onSubmit={handlePredictionSubmit}
+        cardData={selectedCard}
+      />
 
       <Modal
         open={winModalOpen}

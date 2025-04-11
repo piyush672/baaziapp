@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -22,6 +22,8 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
+// Import PredictionModal
+import PredictionModal from "../components/PredictionModal";
 
 // Define types (consider sharing)
 interface LiveItem {
@@ -75,9 +77,32 @@ const MustardDetailScreen = () => {
   const location = useLocation();
   const cardData = (location.state?.cardData as LiveItem) || null;
 
+  // Add state for modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handlePredictClick = () => {
-    console.log("Predict button clicked for:", cardData?.title);
-    alert("Prediction Modal integration needed!");
+    // Open the modal instead of logging/alerting
+    setIsModalOpen(true);
+    // console.log("Predict button clicked for:", cardData?.title);
+    // alert("Prediction Modal integration needed!");
+  };
+
+  // Add handler to close modal
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  // Define submit handler for the modal
+  const handlePredictionSubmit = (submission: {
+    cardTitle: string | undefined;
+    bet: string;
+    prediction: string | null;
+    odds?: number;
+  }) => {
+    console.log("Prediction Submitted from MustardDetailScreen:", submission);
+    // Add logic here to actually save the prediction (e.g., API call)
+    alert("Bet placed successfully! (From DetailScreen)");
+    // Modal closes itself via its own onSubmit prop
   };
 
   const handleGoBack = () => {
@@ -314,6 +339,14 @@ const MustardDetailScreen = () => {
           Place Your Bet
         </Button>
       </Paper>
+
+      {/* Render the PredictionModal */}
+      <PredictionModal
+        open={isModalOpen}
+        onClose={handleModalClose}
+        onSubmit={handlePredictionSubmit}
+        cardData={cardData}
+      />
     </Box>
   );
 };
