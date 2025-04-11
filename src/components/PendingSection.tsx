@@ -39,7 +39,7 @@ const PendingSection: React.FC<PendingSectionProps> = ({ items }) => {
           <Card
             key={index}
             variant="outlined"
-            sx={{ mb: 2, borderRadius: 2, width: "100%", borderColor: "#eee" }}
+            sx={{ mb: 2, borderRadius: 2, width: 380, borderColor: "#eee" }}
           >
             <CardContent
               sx={{

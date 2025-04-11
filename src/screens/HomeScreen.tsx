@@ -210,8 +210,9 @@ const HomePage = () => {
                 sx={{
                   mb: 2,
                   borderRadius: 2,
-                  width: "100%",
+                  width: 380,
                   borderColor: "#eee",
+
                 }}
               >
                 <CardContent sx={{ position: "relative", p: 1.5 }}>

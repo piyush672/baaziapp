@@ -3,9 +3,9 @@ import { Card, CardContent, Grid, Typography, Box, Button, Chip } from '@mui/mat
 
 const CompletedSection = ({ items, onWinModalOpen }) => {
     return (
-        <>
+        <Box display="flex" flexWrap="wrap" justifyContent="center">
             {items.map((item, index) => (
-                <Card key={index} variant="outlined" sx={{ mb: 2, borderRadius: 2, width: '100%' }}>
+                <Card key={index} variant="outlined" sx={{ mb: 2, borderRadius: 2, width: 380 }}>
                     <CardContent>
                         <Grid container justifyContent="space-between" alignItems="center">
                             <Typography variant="h6" sx={{ fontSize: '1rem' }}>{item.title}</Typography>
@@ -43,7 +43,7 @@ const CompletedSection = ({ items, onWinModalOpen }) => {
                     </CardContent>
                 </Card>
             ))}
-        </>
+        </Box>
     );
 };
 
