@@ -14,6 +14,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import LiveSection from "../components/LiveSection";
 import PendingSection from "../components/PendingSection";
 import PredictionModal from "../components/PredictionModal";
+import Header from "../components/header";
 
 // Define interfaces for the data structures
 interface LiveItem {
@@ -264,62 +265,7 @@ const HomePage = () => {
     <Box
       sx={{ bgcolor: "white", minHeight: "100vh", maxWidth: 500, mx: "auto" }}
     >
-      <Box sx={{ bgcolor: PRIMARY_COLOR, color: "white", p: "12px 16px" }}>
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Grid display="flex" alignItems="center">
-            <Box
-              sx={{ bgcolor: "white", p: "4px 8px", borderRadius: 1, mr: 1.5 }}
-            >
-              <Typography
-                sx={{
-                  color: PRIMARY_COLOR,
-                  fontWeight: "bold",
-                  fontSize: "0.8rem",
-                }}
-              >
-                खेती बाज़ी
-              </Typography>
-            </Box>
-            <Box>
-              <Typography
-                variant="h6"
-                fontWeight="bold"
-                fontSize="1.1rem"
-                lineHeight={1.2}
-              >
-                KhetiBaazi
-              </Typography>
-              <Typography
-                variant="caption"
-                display="block"
-                sx={{ opacity: 0.9 }}
-              >
-                Kisaan Ka Market Analyst
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{
-                bgcolor: "rgba(0,0,0,0.2)",
-                color: "white",
-                borderRadius: "12px",
-                textTransform: "none",
-                fontSize: "0.75rem",
-                boxShadow: "none",
-                fontWeight: 500,
-                px: 1.5,
-                py: 0.5,
-                "&:hover": { bgcolor: "rgba(0,0,0,0.3)", boxShadow: "none" },
-              }}
-            >
-              Balance: ₹10,000
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
+      <Header />
 
       <Box sx={{ p: "16px 12px" }}>
         <Typography
