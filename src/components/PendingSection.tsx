@@ -1,21 +1,28 @@
 import React from "react";
-import { Typography, Card, CardContent, Box } from "@mui/material";
+import {
+  Typography,
+  Card,
+  CardContent,
+  Box,
+  Grid,
+  Button,
+} from "@mui/material";
 
-// Define interface (can be imported if global)
+// Update interface to match HomeScreen.tsx
 interface PendingItem {
-  title?: string;
-  description?: string;
+  title: string;
+  description: string;
+  prediction: string;
+  betAmount: string;
+  resultDate: string;
+  image?: string; // Add optional image field
 }
 
 interface PendingSectionProps {
   items: PendingItem[];
-  primaryColor: string; // Added primaryColor prop
 }
 
-const PendingSection: React.FC<PendingSectionProps> = ({
-  items,
-  primaryColor,
-}) => {
+const PendingSection: React.FC<PendingSectionProps> = ({ items }) => {
   return (
     <>
       {items.length === 0 ? (
@@ -34,48 +41,122 @@ const PendingSection: React.FC<PendingSectionProps> = ({
             variant="outlined"
             sx={{ mb: 2, borderRadius: 2, width: "100%", borderColor: "#eee" }}
           >
-            <CardContent sx={{ position: "relative", p: 1.5 }}>
-              {/* Image Placeholder */}
-              <Box
-                component="img"
-                src={`/placeholder-image-pending-${(index % 2) + 1}.png`}
-                alt={item.title || "Pending"}
-                sx={{
-                  width: "100%",
-                  height: "100px",
-                  objectFit: "cover",
-                  borderRadius: 1,
-                  mb: 1,
-                  backgroundColor: "#f0f4f8",
-                }}
-              />
-              {/* Assuming pending items have similar structure */}
-              <Typography
-                variant="subtitle1"
-                sx={{ fontWeight: "bold", fontSize: "1rem" }}
-                gutterBottom
+            <CardContent
+              sx={{
+                p: 2,
+                position: "relative",
+                pb: 8 /* Add padding-bottom to avoid overlap */,
+              }}
+            >
+              {/* Add Image if available */}
+              {item.image && (
+                <Box
+                  component="img"
+                  src={item.image}
+                  alt={item.title}
+                  sx={{
+                    width: "100%",
+                    height: "100px", // Adjust height as needed
+                    objectFit: "cover",
+                    borderRadius: 1,
+                    mb: 1.5, // Margin below image
+                    backgroundColor: "#f0f4f8",
+                  }}
+                />
+              )}
+
+              {/* Top Row: Title and Result Date */}
+              <Grid
+                container
+                justifyContent="space-between"
+                alignItems="flex-start"
+                sx={{ mb: 0.5 }}
               >
-                {item.title || "Pending Prediction"}
-              </Typography>
+                <Grid item xs>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                  >
+                    {item.title}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ fontSize: "0.75rem", whiteSpace: "nowrap" }}
+                  >
+                    Results on {item.resultDate}
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              {/* Description Row */}
               <Typography
                 variant="body2"
                 color="text.secondary"
-                align="left"
-                sx={{ fontSize: "0.8rem", mb: 1 }}
+                sx={{ fontSize: "0.8rem", mb: 1.5 }}
               >
-                {item.description || "Waiting for results..."}
+                {item.description}
               </Typography>
-              {/* Add other relevant pending details if available */}
-              <Typography
-                variant="body2"
-                sx={{
-                  color: primaryColor,
-                  fontStyle: "italic",
+
+              {/* Prediction and Bet Amount (Simpler Layout) */}
+              <Box sx={{ mb: 1 }}>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  component="span"
+                  sx={{ mr: 0.5 }}
+                >
+                  Your Prediction:
+                </Typography>
+                <Typography
+                  variant="body2"
+                  component="span"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {item.prediction}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  component="span"
+                  sx={{ mr: 0.5 }}
+                >
+                  Bet Amount:
+                </Typography>
+                <Typography
+                  variant="body2"
+                  component="span"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {item.betAmount}
+                </Typography>
+              </Box>
+
+              {/* Positioned Button */}
+              <Button
+                variant="contained"
+                size="small"
+                disabled // Button is disabled for pending items
+                sx={(theme) => ({
+                  position: "absolute",
+                  bottom: theme.spacing(2), // Position from bottom
+                  right: theme.spacing(2), // Position from right
+                  bgcolor: "#e0e0e0",
+                  color: "rgba(0, 0, 0, 0.26)",
+                  textTransform: "none",
+                  borderRadius: 1.5,
                   fontSize: "0.8rem",
-                }}
+                  px: 2.5,
+                  boxShadow: "none",
+                  "&:hover": { bgcolor: "#e0e0e0", boxShadow: "none" },
+                })}
               >
-                Result Pending
-              </Typography>
+                Predict
+              </Button>
             </CardContent>
           </Card>
         ))

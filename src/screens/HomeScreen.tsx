@@ -46,9 +46,12 @@ interface CompletedItem {
 }
 
 interface PendingItem {
-  title?: string;
-  description?: string;
-  // Add other pending item properties if they exist
+  title: string;
+  description: string;
+  prediction: string;
+  betAmount: string;
+  resultDate: string;
+  image?: string;
 }
 
 interface DummyData {
@@ -108,7 +111,16 @@ const dummyData: DummyData = {
       odds: { before: 1.9, on: 5.0, after: 1.4 },
     },
   ],
-  pending: [],
+  pending: [
+    {
+      title: "Wheat Price Prediction",
+      description: "Globus Corp. Grade A (Rajasthan)",
+      prediction: "₹2500/Qtl",
+      betAmount: "₹500",
+      resultDate: "12 Apr",
+      image: "https://d2n0idf0n5xz1f.cloudfront.net/others/1670582892093",
+    },
+  ],
   completed: [
     {
       title: "Rice MSP Prediction",
@@ -234,12 +246,7 @@ const HomePage = () => {
           />
         );
       case "Pending":
-        return (
-          <PendingSection
-            items={dummyData.pending}
-            primaryColor={PRIMARY_COLOR}
-          />
-        );
+        return <PendingSection items={dummyData.pending} />;
       case "Completed":
         return (
           <Box>

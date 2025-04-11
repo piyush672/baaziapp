@@ -248,7 +248,7 @@ const MonsoonDetailScreen = () => {
               color="text.secondary"
               sx={{ textAlign: "center" }}
             >
-              Current Bets: Before: 45% | On: 15% | After: 40% (Dummy Data)
+              Current Bets: Before: 45% | On: 15% | After: 40%
             </Typography>
           </CardContent>
         </Card>
