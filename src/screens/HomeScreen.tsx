@@ -15,6 +15,7 @@ import LiveSection from "../components/LiveSection";
 import PendingSection from "../components/PendingSection";
 import PredictionModal from "../components/PredictionModal";
 import Header from "../components/header";
+import { useNavigate } from "react-router-dom";
 
 // Define interfaces for the data structures
 interface LiveItem {
@@ -154,6 +155,7 @@ const HomePage = () => {
   const [selectedResult, setSelectedResult] = useState<CompletedItem | null>(
     null
   );
+  const navigate = useNavigate();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     if (newValue) setSelectedTab(newValue);
@@ -188,6 +190,12 @@ const HomePage = () => {
     setWinModalOpen(false);
   };
 
+  const handleCompletedCardClick = (item: CompletedItem) => {
+    if (item.title === "Who will win the gram panchayat election?") {
+      navigate("/election-detail", { state: item });
+    }
+  };
+
   const renderSection = () => {
     switch (selectedTab) {
       case "Live":
@@ -212,8 +220,19 @@ const HomePage = () => {
                   borderRadius: 2,
                   width: 380,
                   borderColor: "#eee",
-
+                  cursor:
+                    item.title === "Who will win the gram panchayat election?"
+                      ? "pointer"
+                      : "default",
+                  "&:hover":
+                    item.title === "Who will win the gram panchayat election?"
+                      ? {
+                          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                          borderColor: "#ccc",
+                        }
+                      : {},
                 }}
+                onClick={() => handleCompletedCardClick(item)}
               >
                 <CardContent sx={{ position: "relative", p: 1.5 }}>
                   <Box
