@@ -39,6 +39,7 @@ interface CompletedItem {
   amount: string;
   reward: string;
   date: string;
+  image?: string; // Add optional image field
 }
 
 interface PendingItem {
@@ -126,6 +127,17 @@ const dummyData: DummyData = {
       amount: "₹2,000",
       reward: "₹5,000",
       date: "21/02/2025",
+      image:
+        "https://static.vecteezy.com/system/resources/thumbnails/033/107/729/small_2x/rice-on-the-table-web-banner-with-copy-space-generative-ai-photo.jpg",
+    },
+    {
+      title: "Who will win the gram panchayat election?",
+      description: "Khandwa (MP)",
+      prediction: "Raju Singh",
+      actual: "Suresh Patel", // Prediction was incorrect
+      amount: "₹100",
+      reward: "-₹500", // Update to show loss amount
+      date: "15/03/2024",
     },
   ],
 };
@@ -204,7 +216,10 @@ const HomePage = () => {
                 <CardContent sx={{ position: "relative", p: 1.5 }}>
                   <Box
                     component="img"
-                    src={`/placeholder-image-completed-${(idx % 2) + 1}.png`}
+                    src={
+                      item.image ||
+                      `/placeholder-image-completed-${(idx % 2) + 1}.png`
+                    }
                     alt={item.title}
                     sx={{
                       width: "100%",
@@ -233,7 +248,11 @@ const HomePage = () => {
                     <Typography
                       variant="body2"
                       fontWeight="bold"
-                      color="success.main"
+                      color={
+                        item.reward.startsWith("-")
+                          ? "error.main"
+                          : "success.main"
+                      }
                     >
                       {item.reward}
                     </Typography>
@@ -399,7 +418,11 @@ const HomePage = () => {
               <Typography
                 variant="body1"
                 fontWeight="bold"
-                color="success.main"
+                color={
+                  selectedResult?.reward.startsWith("-")
+                    ? "error.main"
+                    : "success.main"
+                }
               >
                 {selectedResult?.reward || "—"}
               </Typography>
