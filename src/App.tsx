@@ -9,6 +9,7 @@ import KisanQuizScreen from "./screens/KisanQuizScreen";
 import CashoutSuccessScreen from "./screens/CashoutSuccessScreen";
 import MonsoonDetailScreen from "./screens/MonsoonDetailScreen";
 import MustardDetailScreen from "./screens/MustardDetailScreen";
+import ElectionDetailScreen from "./screens/ElectionDetailScreen";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         </Route>
         <Route path="/monsoon-detail" element={<MonsoonDetailScreen />} />
         <Route path="/mustard-detail" element={<MustardDetailScreen />} />
+        <Route path="/election-detail" element={<ElectionDetailScreen />} />
         <Route path="/games/slots" element={<SlotsScreen />} />
         <Route path="/games/kisan-quiz" element={<KisanQuizScreen />} />
         <Route path="/cashout-success" element={<CashoutSuccessScreen />} />
